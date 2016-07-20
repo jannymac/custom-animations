@@ -46,9 +46,7 @@ if(isset($_POST['submit'])) {
         !isset($_POST['addinfo']) ||
 
         !isset($_POST['discovery']) ||
- 
-        !isset($_POST['human'])) {
- 
+  
         died('We are sorry, but there appears to be a problem with the form you submitted.');       
  
     }
@@ -69,7 +67,6 @@ if(isset($_POST['submit'])) {
 
     $discovery = $_POST['discovery']; // required
 
-    $human = $_POST['human']; // required
  
      
  
@@ -97,7 +94,7 @@ if(isset($_POST['submit'])) {
  
   }
  
-  if(strlen($add-info) < 2) {
+  if(strlen($addinfo) < 2) {
  
     $error_message .= 'The Additional Info you entered do not appear to be valid.<br />';
  
@@ -127,13 +124,13 @@ if(isset($_POST['submit'])) {
  
     $email_message .= "Email: ".clean_string($email)."\n";
  
-    $email_message .= "Telephone Number: ".clean_string($phone-number)."\n";
+    $email_message .= "Telephone Number: ".clean_string($phonenumber)."\n";
  
     $email_message .= "Video Type: ".clean_string($vidtype)."\n";
  
     $email_message .= "Video Length: ".clean_string($length)."\n";
 
-    $email_message .= "Additional Info: ".clean_string($add-info)."\n";
+    $email_message .= "Additional Info: ".clean_string($addinfo)."\n";
 
     $email_message .= "Heard About Us: ".clean_string($discovery)."\n";
  
