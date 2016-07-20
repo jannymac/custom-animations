@@ -37,13 +37,13 @@ if(isset($_POST['submit'])) {
  
         !isset($_POST['email']) ||
  
-        !isset($_POST['phone-number']) ||
+        !isset($_POST['phonenumber']) ||
  
         !isset($_POST['vidtype']) ||
 
         !isset($_POST['length']) ||
 
-        !isset($_POST['add-info']) ||
+        !isset($_POST['addinfo']) ||
 
         !isset($_POST['discovery']) ||
  
@@ -59,13 +59,13 @@ if(isset($_POST['submit'])) {
  
     $email = $_POST['email']; // required
  
-    $phone-number = $_POST['phone-number']; // required
+    $phone-number = $_POST['phonenumber']; // required
  
     $vidtype = $_POST['vidtype']; // not required
  
     $length = $_POST['length']; // required
 
-    $add-info = $_POST['add-info']; // required
+    $add-info = $_POST['addinfo']; // required
 
     $discovery = $_POST['discovery']; // required
 
