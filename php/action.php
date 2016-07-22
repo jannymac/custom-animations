@@ -9,7 +9,7 @@
 /* Your data */
 /************************************************/
 	/* Your email goes here */
-	$your_email = "janessa.mckell@gmail.com";
+	$your_email = "";
 
 	/* Your name or your company name goes here */
 	$your_name = "Custom Animations";
@@ -171,8 +171,8 @@
 			$mail->isSMTP();											// Set mailer to use SMTP
 			$mail->Host = "smtp.gmail.com";		// Specify main and backup server
 			$mail->SMTPAuth = true;										// Enable SMTP authentication
-			$mail->Username = "janessa.mckell@gmail.com";				// SMTP username
-			$mail->Password = "bndhqsjskestzagq";						// SMTP password
+			$mail->Username = "";				// SMTP username
+			$mail->Password = "";						// SMTP password
 			$mail->SMTPSecure = "tls";									// Enable encryption, 'ssl' also accepted
 			$mail->Port = 465;											// SMTP Port number e.g. smtp.gmail.com uses port 465
 			$mail->IsHTML(true);
