@@ -9,7 +9,7 @@
 /* Your data */
 /************************************************/
 	/* Your email goes here */
-	$your_email = "janessa.mckell@gmail.com";
+	$your_email = "";
 
 	/* Your name or your company name goes here */
 	$your_name = "Custom Animations";
