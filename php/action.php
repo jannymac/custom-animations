@@ -4,7 +4,6 @@
 	if (!$_POST) exit;
 
 	require dirname(__FILE__)."/validation.php";
-	require dirname(__FILE__)."/csrf.php";
 
 /************************************************/
 /* Your data */
@@ -66,15 +65,6 @@
 	$date_from	= substr($date_from, 0, 20);
 	$date_to	= substr($date_to, 0, 20);
 	$discovery	= substr($adults, 0, 3);*/
-
-/************************************************/
-/* CSRF protection */
-/************************************************/
-	$new_token = new CSRF('booking');
-	if (!$new_token->check_token($token)) {
-		echo '<div class="error-message unit"><i class="fa fa-close"></i>Incorrect token. Please reload this webpage</div>';
-		exit;
-	}
 
 /************************************************/
 /* Validation */
