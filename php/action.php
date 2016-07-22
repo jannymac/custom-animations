@@ -85,45 +85,6 @@
 		}
 	}
 
-	/* Phone Number */
-	if ($validate_phonenumber){
-		$result = validatePhone($phonenumber);
-		if ($result !== "valid") {
-				$error_text[] = $result;
-			}
-	}
-
-	/* Adult guests */
-	if ($validate_adults){
-		$result = validateVidtype($vidtype);
-		if ($result !== "valid") {
-			$error_text[] = $result;
-		}
-	}
-
-	/* Children guests */
-	if ($validate_children){
-		$result = validateVidLength($length);
-		if ($result !== "valid") {
-			$error_text[] = $result;
-		}
-	}
-
-	/* Date from */
-	if ($validate_date_from){
-		$result = validateAddInfo($addinfo);
-		if ($result !== "valid") {
-			$error_text[] = $result;
-		}
-	}
-
-	/* Date to */
-	if ($validate_date_to){
-		$result = validateDiscovery($discovery);
-		if ($result !== "valid") {
-			$error_text[] = $result;
-		}
-	}
 
 	/* If validation error occurs */
 	if ($error_text) {
@@ -213,5 +174,5 @@
 /************************************************/
 /* Success message */
 /************************************************/
-	echo '<div class="success-message unit"><i class="fa fa-check"></i>Your booking has been sent successfully</div>';
+	echo '<div class="success-message unit"><i class="fa fa-check"></i>Your quotation request has been sent successfully</div>';
 ?>
