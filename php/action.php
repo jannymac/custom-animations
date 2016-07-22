@@ -10,27 +10,26 @@
 /* Your data */
 /************************************************/
 	/* Your email goes here */
-	$your_email = "your_email@domain.com";
+	$your_email = "janessa.mckell@gmail.com";
 
 	/* Your name or your company name goes here */
-	$your_name = "Your name";
+	$your_name = "Custom Animations";
 
 	/* Message subject */
-	$your_subject = "J-forms: Booking";
+	$your_subject = "Quotation Request";
 
 /************************************************/
 /* Settings */
 /************************************************/
 	/* Select validation for fields */
 	/* If you want to validate field - true, if you don't - false */
-	$validate_name		= true;
-	$validate_email		= true;
-	$validate_phone		= true;
-	$validate_adults	= true;
-	$validate_children	= true;
-	$validate_date_from	= true;
-	$validate_date_to	= true;
-	$validate_message	= true;
+	$validate_name				= true;
+	$validate_email				= true;
+	$validate_phonenumber		= true;
+	$validate_vidtype			= true;
+	$validate_length			= true;
+	$validate_addinfo			= true;
+	$validate_discovery			= true;
 
 	/* Select the action */
 	/* If you want to do the action - true, if you don't - false */
@@ -44,34 +43,29 @@
 	$error_message	= '';
 
 	/* POST data */
-	$name		= (isset($_POST["name"]))			? strip_tags(trim($_POST["name"]))			: false;
-	$email		= (isset($_POST["email"]))			? strip_tags(trim($_POST["email"]))			: false;
-	$phone		= (isset($_POST["phone"]))			? strip_tags(trim($_POST["phone"]))			: false;
-	$message	= (isset($_POST["message"]))		? strip_tags(trim($_POST["message"]))		: false;
-	$date_from	= (isset($_POST["date_from"]))		? strip_tags(trim($_POST["date_from"]))		: false;
-	$date_to	= (isset($_POST["date_to"]))		? strip_tags(trim($_POST["date_to"]))		: false;
-	$adults		= (isset($_POST["adults"]))			? strip_tags(trim($_POST["adults"]))		: false;
-	$children	= (isset($_POST["children"]))		? strip_tags(trim($_POST["children"]))		: false;
-	$token		= (isset($_POST["token_booking"])) 	? strip_tags(trim($_POST["token_booking"])) : false;
+	$name			= (isset($_POST["name"]))			? strip_tags(trim($_POST["name"]))			: false;
+	$email			= (isset($_POST["email"]))			? strip_tags(trim($_POST["email"]))			: false;
+	$phonenumber	= (isset($_POST["phonenumber"]))	? strip_tags(trim($_POST["phonenumber"]))	: false;
+	$vidtype		= (isset($_POST["vidtype"]))		? strip_tags(trim($_POST["vidtype"]))		: false;
+	$length			= (isset($_POST["length"]))			? strip_tags(trim($_POST["length"]))		: false;
+	$addinfo		= (isset($_POST["addinfo"]))		? strip_tags(trim($_POST["addinfo"]))		: false;
+	$discovery		= (isset($_POST["discovery"]))		? strip_tags(trim($_POST["discovery"]))		: false;
 
-	$name		= htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-	$email		= htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-	$phone		= htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
-	$message	= htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
-	$date_from	= htmlspecialchars($date_from, ENT_QUOTES, 'UTF-8');
-	$date_to	= htmlspecialchars($date_to, ENT_QUOTES, 'UTF-8');
-	$adults		= htmlspecialchars($adults, ENT_QUOTES, 'UTF-8');
-	$children	= htmlspecialchars($children, ENT_QUOTES, 'UTF-8');
-	$token		= htmlspecialchars($token, ENT_QUOTES, 'UTF-8');
+	$name			= htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+	$email			= htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+	$phonenumber	= htmlspecialchars($phonenumber, ENT_QUOTES, 'UTF-8');
+	$vidtype		= htmlspecialchars($vidtype, ENT_QUOTES, 'UTF-8');
+	$length			= htmlspecialchars($length, ENT_QUOTES, 'UTF-8');
+	$addinfo		= htmlspecialchars($addinfo, ENT_QUOTES, 'UTF-8');
+	$discovery		= htmlspecialchars($discovery, ENT_QUOTES, 'UTF-8');
 
-	$name		= substr($name, 0, 30);
+	/*$name		= substr($name, 0, 30);
 	$email		= substr($email, 0, 30);
 	$phone		= substr($phone, 0, 30);
 	$message	= substr($message, 0, 1500);
 	$date_from	= substr($date_from, 0, 20);
 	$date_to	= substr($date_to, 0, 20);
-	$adults		= substr($adults, 0, 3);
-	$children	= substr($children, 0, 3);
+	$discovery	= substr($adults, 0, 3);*/
 
 /************************************************/
 /* CSRF protection */
@@ -101,9 +95,9 @@
 		}
 	}
 
-	/* Phone */
-	if ($validate_phone){
-		$result = validatePhone($phone);
+	/* Phone Number */
+	if ($validate_phonenumber){
+		$result = validatePhone($phonenumber);
 		if ($result !== "valid") {
 				$error_text[] = $result;
 			}
@@ -111,7 +105,7 @@
 
 	/* Adult guests */
 	if ($validate_adults){
-		$result = validateAdults($adults);
+		$result = validateVidtype($vidtype);
 		if ($result !== "valid") {
 			$error_text[] = $result;
 		}
@@ -119,7 +113,7 @@
 
 	/* Children guests */
 	if ($validate_children){
-		$result = validateChildren($children);
+		$result = validateVidLength($length);
 		if ($result !== "valid") {
 			$error_text[] = $result;
 		}
@@ -127,7 +121,7 @@
 
 	/* Date from */
 	if ($validate_date_from){
-		$result = validateDateFrom($date_from, "/");
+		$result = validateAddInfo($addinfo);
 		if ($result !== "valid") {
 			$error_text[] = $result;
 		}
@@ -135,15 +129,7 @@
 
 	/* Date to */
 	if ($validate_date_to){
-		$result = validateDateTo($date_to, "/");
-		if ($result !== "valid") {
-			$error_text[] = $result;
-		}
-	}
-
-	/* Message */
-	if ($validate_message){
-		$result = validateMessage($message, 20);
+		$result = validateDiscovery($discovery);
 		if ($result !== "valid") {
 			$error_text[] = $result;
 		}
@@ -175,7 +161,7 @@
 			$mail->IsHTML(true);
 			$mail->From = $email;
 			$mail->CharSet = "UTF-8";
-			$mail->FromName = "J-forms";
+			$mail->FromName = "Custom Animations";
 			$mail->Encoding = "base64";
 			$mail->ContentType = "text/html";
 			$mail->addAddress($your_email, $your_name);
@@ -193,16 +179,16 @@
 			require dirname(__FILE__)."/message.php";
 			$mail = new PHPMailer;
 			$mail->isSMTP();											// Set mailer to use SMTP
-			$mail->Host = "smtp1.example.com;smtp2.example.com";		// Specify main and backup server
+			$mail->Host = "smtp.gmail.com";		// Specify main and backup server
 			$mail->SMTPAuth = true;										// Enable SMTP authentication
-			$mail->Username = "your-username";							// SMTP username
-			$mail->Password = "your-password";							// SMTP password
+			$mail->Username = "janessa.mckell@gmail.com";				// SMTP username
+			$mail->Password = "bndhqsjskestzagq";						// SMTP password
 			$mail->SMTPSecure = "tls";									// Enable encryption, 'ssl' also accepted
 			$mail->Port = 465;											// SMTP Port number e.g. smtp.gmail.com uses port 465
 			$mail->IsHTML(true);
 			$mail->From = $email;
 			$mail->CharSet = "UTF-8";
-			$mail->FromName = "J-forms";
+			$mail->FromName = "Custom Animations";
 			$mail->Encoding = "base64";
 			$mail->Timeout = 200;
 			$mail->SMTPDebug = 0;
