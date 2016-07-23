@@ -4,6 +4,7 @@
 	if (!$_POST) exit;
 
 	require dirname(__FILE__)."/validation.php";
+	require dirname(__FILE__)."/csrf.php";
 
 /************************************************/
 /* Your data */
@@ -25,10 +26,10 @@
 	$validate_name				= true;
 	$validate_email				= true;
 	$validate_phonenumber		= true;
-	$validate_vidtype			= true;
+	$validate_vidtype			= false;
 	$validate_length			= true;
 	$validate_addinfo			= true;
-	$validate_discovery			= true;
+	$validate_discovery			= false;
 
 	/* Select the action */
 	/* If you want to do the action - true, if you don't - false */
@@ -49,7 +50,8 @@
 	$length			= (isset($_POST["length"]))			? strip_tags(trim($_POST["length"]))		: false;
 	$addinfo		= (isset($_POST["addinfo"]))		? strip_tags(trim($_POST["addinfo"]))		: false;
 	$discovery		= (isset($_POST["discovery"]))		? strip_tags(trim($_POST["discovery"]))		: false;
-
+	$token			= (isset($_POST["token_booking"])) 	? strip_tags(trim($_POST["token_booking"])) : false;
+	
 	$name			= htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 	$email			= htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 	$phonenumber	= htmlspecialchars($phonenumber, ENT_QUOTES, 'UTF-8');
@@ -57,14 +59,23 @@
 	$length			= htmlspecialchars($length, ENT_QUOTES, 'UTF-8');
 	$addinfo		= htmlspecialchars($addinfo, ENT_QUOTES, 'UTF-8');
 	$discovery		= htmlspecialchars($discovery, ENT_QUOTES, 'UTF-8');
+	$token			= htmlspecialchars($token, ENT_QUOTES, 'UTF-8');
 
-	/*$name		= substr($name, 0, 30);
-	$email		= substr($email, 0, 30);
-	$phone		= substr($phone, 0, 30);
-	$message	= substr($message, 0, 1500);
-	$date_from	= substr($date_from, 0, 20);
-	$date_to	= substr($date_to, 0, 20);
-	$discovery	= substr($adults, 0, 3);*/
+	/*$name			= substr($name, 0, 30);
+	$email			= substr($email, 0, 30);
+	$phonenumber	= substr($phonenumber, 0, 30);
+	$length			= substr($length, 0, 20);
+	$addinfo		= substr($addinfo, 0, 20);
+
+/************************************************/
+/* CSRF protection */
+/************************************************/
+	$new_token = new CSRF('booking');
+	if (!$new_token->check_token($token)) {
+		echo '<div class="error-message unit"><i class="fa fa-close"></i>Incorrect token. Please reload this webpage.</div>';
+		exit;
+	}
+
 
 /************************************************/
 /* Validation */
@@ -85,6 +96,45 @@
 		}
 	}
 
+	/* Phone Number */
+	if ($validate_phonenumber){
+		$result = validatePhonenumber($phonenumber);
+		if ($result !== "valid") {
+			$error_text[] = $result;
+		}
+	}
+	
+	/* Video Type */
+	if ($validate_vidtype){
+		$result = validateVidtype($vidtype);
+		if ($result !== "valid") {
+			$error_text[] = $result;
+		}
+	}
+	
+		/* Video Length */
+	if ($validate_length){
+		$result = validateVidlength($length);
+		if ($result !== "valid") {
+			$error_text[] = $result;
+		}
+	}
+	
+			/* Additional Info */
+	if ($validate_addinfo){
+		$result = validateAddinfo($addinfo);
+		if ($result !== "valid") {
+			$error_text[] = $result;
+		}
+	}
+	
+			/* Discovery */
+	if ($validate_discovery){
+		$result = validateDiscovery($discovery);
+		if ($result !== "valid") {
+			$error_text[] = $result;
+		}
+	}
 
 	/* If validation error occurs */
 	if ($error_text) {
@@ -130,7 +180,7 @@
 			require dirname(__FILE__)."/message.php";
 			$mail = new PHPMailer;
 			$mail->isSMTP();											// Set mailer to use SMTP
-			$mail->Host = "smtp.gmail.com";		// Specify main and backup server
+			$mail->Host = "smtp.gmail.com";								// Specify main and backup server
 			$mail->SMTPAuth = true;										// Enable SMTP authentication
 			$mail->Username = "";				// SMTP username
 			$mail->Password = "";						// SMTP password
@@ -174,5 +224,5 @@
 /************************************************/
 /* Success message */
 /************************************************/
-	echo '<div class="success-message unit"><i class="fa fa-check"></i>Your quotation request has been sent successfully</div>';
+	echo '<div class="success-message unit"><i class="fa fa-check"></i>Your quotation request has been sent successfully.</div>';
 ?>
